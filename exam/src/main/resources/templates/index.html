@@ -62,7 +62,7 @@
                             </div>
                             <div id="${id}-editarea" class="edit">
                                 <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
-                                <textarea id="${id}-textarea" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
+                                <textarea id="${id}-password" class="te-edit" name="" id="" cols="30" rows="5"></textarea>
                             </div>
                         </div>
                         <!-- 버튼 영역-->
@@ -160,7 +160,7 @@
 
       // 3. 전달할 data JSON으로 만듭니다.
       let data = {'username': username, 'contents': contents, 'password':password};
-      console.log(data["password"])
+      console.log(data)
       // 4. PUT /api/memos/{id} 에 data를 전달합니다.
       $.ajax({
         type: "PUT",
@@ -169,6 +169,7 @@
         data: JSON.stringify(data),
         success: function (response) {
           alert('메시지 변경에 성공하였습니다.');
+          window.location.reload();
         }
       });
     }

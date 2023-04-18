@@ -1,6 +1,5 @@
 package com.sprta.exam.repository;
 
-import com.sprta.exam.Dto.MemoResponseDto;
 import com.sprta.exam.entity.Memo;
 import org.springframework.data.jpa.repository.JpaRepository;
 

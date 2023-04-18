@@ -1,19 +1,21 @@
-package com.sprta.exam.Dto;
+package com.sprta.exam.dto;
 
-import com.sprta.exam.entity.Memo;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemoResponseDto {
     private String username;
     private String contents;
 
     private Long id;
+
+
 
     public MemoResponseDto(MemoRequestDto requestDto) {
         this.username = requestDto.getUsername();
@@ -27,7 +29,6 @@ public class MemoResponseDto {
 
         this.id = id;
     }
-
 
 }
 

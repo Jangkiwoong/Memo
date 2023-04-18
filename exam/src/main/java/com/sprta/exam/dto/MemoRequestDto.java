@@ -1,4 +1,4 @@
-package com.sprta.exam.Dto;
+package com.sprta.exam.dto;
 
 import lombok.Getter;
 

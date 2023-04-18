@@ -1,14 +1,14 @@
 package com.sprta.exam.service;
 
-import com.sprta.exam.Dto.MemoRequestDto;
-import com.sprta.exam.Dto.MemoResponseDto;
+import com.sprta.exam.dto.MemoRequestDto;
+import com.sprta.exam.dto.MemoResponseDto;
+import com.sprta.exam.dto.Sucess;
 import com.sprta.exam.entity.Memo;
 import com.sprta.exam.repository.MemoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +27,12 @@ public class MemoService {
 
     @Transactional(readOnly = true)
     public List<MemoResponseDto> getMemo() {
-        List<Memo> memos = memoRepository.findAllByOrderByModifiedAtDesc();
+        List<Memo> memos = memoRepository.findAllByOrderByModifiedAtDesc(); // 모든 데이터를 시간 역순으로 가져옵니다.
         List<MemoResponseDto> Dto = new ArrayList<>();
-        for(Memo memo : memos){
+        for(Memo memo : memos){  //memos리스트에서 데이터를 하나씩 빼와서 memo에 저장
             MemoResponseDto Dto2 = new MemoResponseDto(memo.getUsername(), memo.getContents(), memo.getId(), memo.getModifiedAt()
-            );
-            Dto.add(Dto2);
+            );  //Dto2에 초기화 해주기
+            Dto.add(Dto2);  //초기화 해주는 데이터를 Dto리스트에 저장
         }
 
         return Dto;
@@ -40,37 +40,32 @@ public class MemoService {
 
 
     @Transactional
-    public String updateMemo(Long id, MemoRequestDto requestDto) {
+    public MemoResponseDto updateMemo(Long id, MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        String answer;
         if(memo.getPassword() == requestDto.getPassword()) {
-            memo.update(requestDto);
-            answer = "수정완료";
-            return answer;
+            MemoResponseDto Dto = new MemoResponseDto(memo.update(requestDto));
+        return Dto;
         }
-        else {
-        answer = "수정실패";
-        return answer;
-        }
+        return null;
     }
     @Transactional
-    public String deleteMemo(Long id, MemoRequestDto requestDto) {
+    public Sucess deleteMemo(Long id, MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        String answer;
-        if(memo.getPassword() == requestDto.getPassword()) {
+
+        if (memo.getPassword() == requestDto.getPassword()) {
             memoRepository.deleteById(id);
-            answer = "삭제완료";
-            return answer;
+            MemoResponseDto dto = new MemoResponseDto();
+            Sucess true2= new Sucess(true);
+            return true2;
         }
         else {
-            answer = "삭제실패";
-            return answer;
+            Sucess false2= new Sucess(false);
+            return false2;
         }
-
     }
 }
 

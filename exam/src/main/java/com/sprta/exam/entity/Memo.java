@@ -1,6 +1,6 @@
 package com.sprta.exam.entity;
 
-import com.sprta.exam.Dto.MemoRequestDto;
+import com.sprta.exam.dto.MemoRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

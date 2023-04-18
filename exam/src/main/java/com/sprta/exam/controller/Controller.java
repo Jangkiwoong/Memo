@@ -1,8 +1,8 @@
 package com.sprta.exam.controller;
 
-import com.sprta.exam.Dto.MemoRequestDto;
-import com.sprta.exam.Dto.MemoResponseDto;
-import com.sprta.exam.entity.Memo;
+import com.sprta.exam.dto.MemoRequestDto;
+import com.sprta.exam.dto.MemoResponseDto;
+import com.sprta.exam.dto.Sucess;
 import com.sprta.exam.service.MemoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +32,13 @@ public class Controller {
     }
 
     @PutMapping("/api/memos/{id}")
-    public List<MemoResponseDto> updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
-       memoService.updateMemo(id, requestDto);
-       return  memoService.getMemo();
+    public MemoResponseDto updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
+        return memoService.updateMemo(id, requestDto);
     }
 
     @DeleteMapping("/api/memos/{id}")
-    public List<MemoResponseDto>  deletMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
-         memoService.deleteMemo(id, requestDto);
-         return memoService.getMemo();
+    public Sucess deletMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
+        return memoService.deleteMemo(id, requestDto);
+
     }
 }

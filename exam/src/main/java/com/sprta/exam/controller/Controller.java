@@ -1,6 +1,7 @@
 package com.sprta.exam.controller;
 
 import com.sprta.exam.Dto.MemoRequestDto;
+import com.sprta.exam.Dto.MemoResponseDto;
 import com.sprta.exam.entity.Memo;
 import com.sprta.exam.service.MemoService;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +22,24 @@ public class Controller {
     }
 
     @PostMapping("/api/memos")
-    public Memo createMemo(@RequestBody MemoRequestDto requestDto) {
+    public MemoResponseDto createMemo(@RequestBody MemoRequestDto requestDto) {
         return memoService.createMemo(requestDto);
     }
 
     @GetMapping("/api/memos")
-    public List<Memo> getMemos(){
-        return memoService.getMemos();
+    public List<MemoResponseDto> getMemos(){
+        return memoService.getMemo();
     }
 
     @PutMapping("/api/memos/{id}")
-    public Long updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
-        return memoService.updateMemo(id, requestDto);
+    public List<MemoResponseDto> updateMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
+       memoService.updateMemo(id, requestDto);
+       return  memoService.getMemo();
+    }
+
+    @DeleteMapping("/api/memos/{id}")
+    public List<MemoResponseDto>  deletMemo(@PathVariable Long id, @RequestBody MemoRequestDto requestDto){
+         memoService.deleteMemo(id, requestDto);
+         return memoService.getMemo();
     }
 }

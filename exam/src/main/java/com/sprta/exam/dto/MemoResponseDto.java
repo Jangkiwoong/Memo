@@ -35,7 +35,7 @@ public class MemoResponseDto {
 
 
     public MemoResponseDto(MemoRequestDto update) {
-        this.username = update.getUsername();
+        this.username = update.getUsername();          // 수정
         this.contents = update.getContents();
         this.password = update.getPassword();
     }
@@ -43,7 +43,7 @@ public class MemoResponseDto {
 
     public MemoResponseDto(MemoRequestDto update, Long id, LocalDateTime modifiedAt) {
         this.username = update.getUsername();
-        this.contents = update.getContents();
+        this.contents = update.getContents();          //수정된 데이터들을 반환
         this.id = id;
         this.password = update.getPassword();
         this.modifiedAt = modifiedAt;

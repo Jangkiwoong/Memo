@@ -16,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemoService {
     private final MemoRepository memoRepository;
+
+    //entity의 데이터들을 그대로 가져오지 않고 ResponseDto의 생성자로 데이터를 MemoResponseDto에 담아 리턴해 줌
     @Transactional
     public MemoResponseDto createMemo (MemoRequestDto requestDto){
         Memo memo = new Memo(requestDto);
@@ -24,21 +26,24 @@ public class MemoService {
 
         return memoResponseDto;
     }
-
+    //DB와 연결된 Entity클래스에 List로 만들어서 sql메소드로 모든 데이터를 시간 역순으로 가져온다.
+    //List<Memo>에서 데이터를 하나씩 빼와서 memo에 저장
+    //List가 한바퀴돌면서 MemoResponseDto에 데이터를 하나씩 저장하고 하니씩 리턴
     @Transactional(readOnly = true)
     public List<MemoResponseDto> getMemo() {
-        List<Memo> memos = memoRepository.findAllByOrderByModifiedAtDesc(); // 모든 데이터를 시간 역순으로 가져옵니다.
+        List<Memo> memos = memoRepository.findAllByOrderByModifiedAtDesc();
         List<MemoResponseDto> Dto = new ArrayList<>();
-        for(Memo memo : memos){  //memos리스트에서 데이터를 하나씩 빼와서 memo에 저장
+        for(Memo memo : memos){
             MemoResponseDto Dto2 = new MemoResponseDto(memo.getUsername(), memo.getContents(), memo.getId(), memo.getModifiedAt(), memo.getPassword()
             );  //Dto2에 초기화 해주기
-            Dto.add(Dto2);  //초기화 해주는 데이터를 Dto리스트에 저장
+            Dto.add(Dto2);
         }
 
         return Dto;
     }
 
-
+    // DB와 연결된 Entitiy를 SQL메서드를 이용해서 Controller에서 넘어온 Id로 비교함
+    // 같은 아이디가 있으면 if문으로 비밀번호를 비교하고 일치하면 ResponseDto에 생성자로 저장해서 반환
     @Transactional
     public MemoResponseDto updateMemo(Long id, MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id).orElseThrow(
@@ -50,6 +55,11 @@ public class MemoService {
         }
         return null;
     }
+
+
+    // DB와 연결된 Entitiy를 SQL메서드를 이용해서 Controller에서 넘어온 Id로 비교함
+    // 같은 아이디가 있으면 if문으로 비밀번호를 비교하고 일치하면 SQL메서드를 통해 해당 Id의 데이터를 지우고
+    // Star클래스로 만들어준 success를 true 혹은 false로 넘김
     @Transactional
     public Sucess deleteMemo(Long id, MemoRequestDto requestDto) {
         Memo memo = memoRepository.findById(id).orElseThrow(

@@ -12,24 +12,42 @@ import java.time.LocalDateTime;
 public class MemoResponseDto {
     private String username;
     private String contents;
-
     private Long id;
+    private int password;
+    private LocalDateTime modifiedAt;
 
 
 
-    public MemoResponseDto(MemoRequestDto requestDto) {
-        this.username = requestDto.getUsername();
-        this.contents = requestDto.getContents();
-    }
 
 
-    public MemoResponseDto(String username, String contents, Long id, LocalDateTime modifiedAt ){
+
+
+
+    public MemoResponseDto(String username, String contents, Long id, LocalDateTime modifiedAt,int password){
         this.username = username;
-        this.contents = contents;
-
+        this.contents = contents;     // 전체조회
         this.id = id;
+        this.modifiedAt = modifiedAt;
+        this.password = password;
     }
 
+
+
+
+    public MemoResponseDto(MemoRequestDto update) {
+        this.username = update.getUsername();
+        this.contents = update.getContents();
+        this.password = update.getPassword();
+    }
+
+
+    public MemoResponseDto(MemoRequestDto update, Long id, LocalDateTime modifiedAt) {
+        this.username = update.getUsername();
+        this.contents = update.getContents();
+        this.id = id;
+        this.password = update.getPassword();
+        this.modifiedAt = modifiedAt;
+    }
 }
 
 

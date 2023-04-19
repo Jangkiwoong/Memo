@@ -20,7 +20,7 @@ public class MemoService {
     public MemoResponseDto createMemo (MemoRequestDto requestDto){
         Memo memo = new Memo(requestDto);
         memoRepository.save(memo);
-        MemoResponseDto memoResponseDto = new MemoResponseDto(requestDto);
+        MemoResponseDto memoResponseDto = new MemoResponseDto(memo.getUsername(), memo.getContents(), memo.getId(), memo.getModifiedAt(), memo.getPassword());
 
         return memoResponseDto;
     }
@@ -30,7 +30,7 @@ public class MemoService {
         List<Memo> memos = memoRepository.findAllByOrderByModifiedAtDesc(); // 모든 데이터를 시간 역순으로 가져옵니다.
         List<MemoResponseDto> Dto = new ArrayList<>();
         for(Memo memo : memos){  //memos리스트에서 데이터를 하나씩 빼와서 memo에 저장
-            MemoResponseDto Dto2 = new MemoResponseDto(memo.getUsername(), memo.getContents(), memo.getId(), memo.getModifiedAt()
+            MemoResponseDto Dto2 = new MemoResponseDto(memo.getUsername(), memo.getContents(), memo.getId(), memo.getModifiedAt(), memo.getPassword()
             );  //Dto2에 초기화 해주기
             Dto.add(Dto2);  //초기화 해주는 데이터를 Dto리스트에 저장
         }
@@ -45,7 +45,7 @@ public class MemoService {
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
         if(memo.getPassword() == requestDto.getPassword()) {
-            MemoResponseDto Dto = new MemoResponseDto(memo.update(requestDto));
+            MemoResponseDto Dto = new MemoResponseDto(memo.update(requestDto),memo.getId(),memo.getModifiedAt());
         return Dto;
         }
         return null;
